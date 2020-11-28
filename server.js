@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require('morgan');
+const colors = require('colors');
 const connectDB = require('./config/db');
 
 // *Load env vars
@@ -13,12 +14,14 @@ connectDB();
 
 // *Route files
 const bootcamps = require('./routes/bootcamps');
-const { connection } = require("mongoose");
+const {
+    connection
+} = require("mongoose");
 
 const app = express();
 
 //* Dev loggin middleware
-if(process.env.NODE_ENV == 'development'){
+if (process.env.NODE_ENV == 'development') {
     app.use(morgan('dev'));
 }
 
@@ -29,13 +32,12 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(
     PORT,
-    console.log(`server running in ${process.env.NODE_ENV} mide on port ${PORT}`)
+    console.log(`server running in ${process.env.NODE_ENV} mide on port ${PORT}`.magenta.bold)
 );
 
 //* Handle unhandled promise rejections
 process.on('unhandledRejection', (err, Promise) => {
-    console.log(`Error: ${err.message}`);
+    console.log(`Error: ${err.message}`.red);
     //! close server & exit process
     server.close(() => process.exit(1));
 })
-
